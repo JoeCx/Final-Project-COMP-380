@@ -1,6 +1,5 @@
 """ fer_model_loader.py """
 
-import json
 from torchvision import models
 import torch
 
