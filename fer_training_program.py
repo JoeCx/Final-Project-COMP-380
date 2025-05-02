@@ -23,7 +23,7 @@ class FERTrainingProgram:
         """
         # Settings for model
         self.batch_size = 64
-        self.epochs = 15
+        self.epochs = 30
         self.learning_rate = 0.001
         self.num_classes = 7
         self.model_path = "fer_resnet18.pth"
@@ -74,7 +74,7 @@ class FERTrainingProgram:
 
         # Training Loop
         best_accuracy = 0
-
+        total_loss = 0
         for epoch in range(epochs):
             self.model.train()
             for images, labels in self.training_loader:
