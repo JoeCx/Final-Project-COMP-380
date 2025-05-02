@@ -2,6 +2,7 @@
 
 from torchvision import models
 import torch
+import dill
 
 class FERModelLoader:
     """
@@ -15,14 +16,15 @@ class FERModelLoader:
             weights_file_paths (dict): A dictionary mapping model keys to their weight file paths.
         """
         self.weights_file_path = weights_file_path
-        self.num_classes = 7
+        self.emotion_classes = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+        self.num_classes = len(self.emotion_classes)
 
         self.model = None
 
         # Set device to a CUDA-compatible gpu
         # Else use CPU to allow general usability and MPS if user has Apple Silicon
         self.device = torch.device(
-            'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_built() else 'cpu')
+            'cuda' if torch.cuda.is_available() else 'cpu')
 
         self.model_initializer()
 
@@ -35,7 +37,7 @@ class FERModelLoader:
             None
         """
         # Initialize a fresh model with weights = None, so there are no weights
-        self.model = models.resnet50(weights=None)
+        self.model = models.resnet18(weights=None)
 
         # Initialize the model to have 7 outputs(number of emotions to be identified)
         num_features = self.model.fc.in_features
@@ -45,7 +47,7 @@ class FERModelLoader:
 
         self.load_model_weights()
 
-        # set model to evaluation mode
+        # Set model to evaluation mode
         self.model.eval()
 
     def load_model_weights(self):
@@ -75,3 +77,18 @@ class FERModelLoader:
             torch.nn.Module: The FER ResNet model.
         """
         return self.model
+    
+    def get_transformation(self, transformation_file):
+        """
+        Create and return a transformation for the model based on
+        the pre-made transformation file
+
+        Returns: transformation
+        """
+        transformation = None
+
+        # Open each file and load the transformation then save it to the list
+        with open(transformation_file, "rb") as f:
+            transformation = (dill.load(f))
+
+        return transformation
