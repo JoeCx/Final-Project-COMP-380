@@ -1,4 +1,4 @@
-""" webcam_fer.py """
+""" webcam_app.py """
 
 import cv2
 import torch
@@ -19,8 +19,8 @@ webcam = cv2.VideoCapture(0)
 if not webcam.isOpened():
     print("Error: Could not access the webcam. Trying other devices...")
     
-    # Try opening additional cameras (device indices 1, 2, etc.)
-    for i in range(1, 5):  # Try 4 potential devices
+    # Try opening additional cameras
+    for i in range(1, 5):
         webcam = cv2.VideoCapture(i)
         if webcam.isOpened():
             print(f"Camera {i} opened successfully.")
