@@ -1,0 +1,45 @@
+Epoch 1: Accuracy = 0.5795, F1 Score = 0.5230, Average Loss = 1.2075
+Best model saved, F1 score increased from 0.0000 to 0.5230
+Epoch 2: Accuracy = 0.6070, F1 Score = 0.5190, Average Loss = 2.2176
+Epoch 3: Accuracy = 0.6250, F1 Score = 0.5724, Average Loss = 3.1124
+Best model saved, F1 score increased from 0.5230 to 0.5724
+Epoch 4: Accuracy = 0.6233, F1 Score = 0.5973, Average Loss = 3.8892
+Best model saved, F1 score increased from 0.5724 to 0.5973
+Epoch 5: Accuracy = 0.6446, F1 Score = 0.6116, Average Loss = 4.5226
+Best model saved, F1 score increased from 0.5973 to 0.6116
+Epoch 6: Accuracy = 0.6381, F1 Score = 0.6045, Average Loss = 5.0038
+Epoch 7: Accuracy = 0.6399, F1 Score = 0.6053, Average Loss = 5.3134
+Epoch 8: Accuracy = 0.6340, F1 Score = 0.6064, Average Loss = 5.5172
+Epoch 9: Accuracy = 0.6382, F1 Score = 0.6079, Average Loss = 5.6810
+Epoch 10: Accuracy = 0.6477, F1 Score = 0.6295, Average Loss = 5.7953
+Best model saved, F1 score increased from 0.6116 to 0.6295
+Epoch 11: Accuracy = 0.6329, F1 Score = 0.6030, Average Loss = 5.9028
+Epoch 12: Accuracy = 0.6300, F1 Score = 0.6053, Average Loss = 5.9995
+Epoch 13: Accuracy = 0.6436, F1 Score = 0.6221, Average Loss = 6.0861
+Epoch 14: Accuracy = 0.6376, F1 Score = 0.6161, Average Loss = 6.1558
+Epoch 15: Accuracy = 0.6452, F1 Score = 0.6176, Average Loss = 6.2374
+Epoch 16: Accuracy = 0.6304, F1 Score = 0.6132, Average Loss = 6.3013
+Epoch 17: Accuracy = 0.6159, F1 Score = 0.5951, Average Loss = 6.3702
+Epoch 18: Accuracy = 0.6484, F1 Score = 0.6247, Average Loss = 6.4328
+Epoch 19: Accuracy = 0.6283, F1 Score = 0.6120, Average Loss = 6.4865
+Epoch 20: Accuracy = 0.6312, F1 Score = 0.6088, Average Loss = 6.5520
+Epoch 21: Accuracy = 0.6439, F1 Score = 0.6114, Average Loss = 6.6149
+Epoch 22: Accuracy = 0.6357, F1 Score = 0.6049, Average Loss = 6.6662
+Epoch 23: Accuracy = 0.6424, F1 Score = 0.6223, Average Loss = 6.7110
+Epoch 24: Accuracy = 0.6067, F1 Score = 0.5834, Average Loss = 6.7596
+Epoch 25: Accuracy = 0.6269, F1 Score = 0.6061, Average Loss = 6.8085
+
+Classification Report:
+              precision    recall  f1-score   support
+
+       angry       0.50      0.52      0.51       958
+     disgust       0.65      0.53      0.58       111
+        fear       0.46      0.50      0.48      1024
+       happy       0.83      0.85      0.84      1774
+     neutral       0.62      0.53      0.57      1233
+         sad       0.51      0.49      0.50      1247
+    surprise       0.74      0.77      0.76       831
+
+    accuracy                           0.63      7178
+   macro avg       0.61      0.60      0.61      7178
+weighted avg       0.63      0.63      0.63      7178

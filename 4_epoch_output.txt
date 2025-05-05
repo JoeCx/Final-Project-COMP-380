@@ -1,0 +1,22 @@
+Epoch 1: Accuracy = 0.5791, F1 Score = 0.5154, Average Loss = 1.2214
+Best model saved, F1 score increased from 0.0000 to 0.5154
+Epoch 2: Accuracy = 0.5908, F1 Score = 0.5323, Average Loss = 2.2229
+Best model saved, F1 score increased from 0.5154 to 0.5323
+Epoch 3: Accuracy = 0.6315, F1 Score = 0.6080, Average Loss = 3.1062
+Best model saved, F1 score increased from 0.5323 to 0.6080
+Epoch 4: Accuracy = 0.6291, F1 Score = 0.5936, Average Loss = 3.8755
+
+Classification Report:
+              precision    recall  f1-score   support
+
+       angry       0.44      0.70      0.54       958
+     disgust       0.50      0.51      0.50       111
+        fear       0.58      0.35      0.44      1024
+       happy       0.87      0.82      0.85      1774
+     neutral       0.55      0.70      0.61      1233
+         sad       0.58      0.37      0.45      1247
+    surprise       0.76      0.78      0.77       831
+
+    accuracy                           0.63      7178
+   macro avg       0.61      0.61      0.59      7178
+weighted avg       0.65      0.63      0.62      7178
