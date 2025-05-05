@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import models, datasets, transforms
 from torch.utils.data import DataLoader
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, f1_score
 
 class FERTrainingProgram:
     """
@@ -14,7 +14,7 @@ class FERTrainingProgram:
     model for facial emotion recognition. The best model is saved according to
     the accuracy after each epoch.
     """
-    def __init__(self):
+    def __init__(self, epochs, learning_rate, model_path, output_file):
         """
         Initializes the FERTrainingProgram class.
 
@@ -23,10 +23,11 @@ class FERTrainingProgram:
         """
         # Settings for model
         self.batch_size = 64
-        self.epochs = 30
-        self.learning_rate = 0.001
+        self.epochs = epochs
+        self.learning_rate = learning_rate
         self.num_classes = 7
-        self.model_path = "fer_resnet18.pth"
+        self.model_path = model_path
+        self.output_file = output_file
 
         # Define transformation for images
         self.transformation = transforms.Compose([
@@ -46,23 +47,23 @@ class FERTrainingProgram:
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        self.model = self.load_model(self.num_classes)
+        self.model = self.load_model()
 
-        self.train_model(self.learning_rate, self.epochs)
+        self.train_model()
 
-    def load_model(self, num_classes):
+    def load_model(self):
         """
         Loads model to be trained and saved with FER images
 
         Return: ResNet18 model
         """
         model = models.resnet18(pretrained=True)
-        model.fc = nn.Linear(model.fc.in_features, num_classes)
+        model.fc = nn.Linear(model.fc.in_features, self.num_classes)
         model = model.to(self.device)
 
         return model
 
-    def train_model(self, learning_rate, epochs):
+    def train_model(self):
         """
         Trains ResNet model with FER images and saves the best model according to
         the accuracy after each epoch.
@@ -70,48 +71,50 @@ class FERTrainingProgram:
         Return: None
         """
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.Adam(self.model.parameters(), lr=learning_rate)
+        optimizer = optim.Adam(self.model.parameters(), lr=self.learning_rate)
 
         # Training Loop
-        best_accuracy = 0
+        best_f1_score = 0
         total_loss = 0
-        for epoch in range(epochs):
-            self.model.train()
-            for images, labels in self.training_loader:
-                images, labels = images.to(self.device), labels.to(self.device)
-                outputs = self.model(images)
-                loss = criterion(outputs, labels)
-                optimizer.zero_grad()
-                loss.backward()
-                optimizer.step()
-                total_loss += loss.item()
-
-            # Evaluate
-            self.model.eval()
-            correct, total = 0, 0
-            predictions, actuals = [], []
-            with torch.no_grad():
-                for images, labels in self.testing_loader:
+        with open(self.output_file, "w") as output_file:
+            for epoch in range(self.epochs):
+                self.model.train()
+                for images, labels in self.training_loader:
                     images, labels = images.to(self.device), labels.to(self.device)
                     outputs = self.model(images)
-                    _, predicted = torch.max(outputs, 1)
-                    total += labels.size(0)
-                    correct += (predicted == labels).sum().item()
-                    predictions += predicted.cpu().tolist()
-                    actuals += labels.cpu().tolist()
+                    loss = criterion(outputs, labels)
+                    optimizer.zero_grad()
+                    loss.backward()
+                    optimizer.step()
+                    total_loss += loss.item()
 
-            accuracy = correct / total
-            average_loss = total_loss / len(self.training_loader)
-            print(f"Epoch {epoch+1}: Accuracy = {accuracy:.4f}, Average Loss = {average_loss:.4f}")
+                # Evaluate
+                self.model.eval()
+                correct, total = 0, 0
+                predictions, actuals = [], []
+                with torch.no_grad():
+                    for images, labels in self.testing_loader:
+                        images, labels = images.to(self.device), labels.to(self.device)
+                        outputs = self.model(images)
+                        _, predicted = torch.max(outputs, 1)
+                        total += labels.size(0)
+                        correct += (predicted == labels).sum().item()
+                        predictions += predicted.cpu().tolist()
+                        actuals += labels.cpu().tolist()
 
-            if accuracy > best_accuracy:
-                previous_best = best_accuracy
-                best_accuracy = accuracy
-                self.save_model()
-                print(f"Best model saved, accuracy increased from {previous_best:.4f} to {best_accuracy:.4f}")
+                accuracy = correct / total
+                f1 = f1_score(actuals, predictions, average="macro")
+                average_loss = total_loss / len(self.training_loader)
+                output_file.write(f"Epoch {epoch+1}: Accuracy = {accuracy:.4f}, F1 Score = {f1:.4f}, Average Loss = {average_loss:.4f}\n")
 
-        print("\nClassification Report:")
-        print(classification_report(actuals, predictions, target_names=self.class_names))
+                if f1 > best_f1_score:
+                    previous_best = best_f1_score
+                    best_f1_score = f1
+                    self.save_model()
+                    output_file.write(f"Best model saved, F1 score increased from {previous_best:.4f} to {best_f1_score:.4f}\n")
+
+            output_file.write("\nClassification Report:\n")
+            output_file.write(classification_report(actuals, predictions, target_names=self.class_names))
 
     def save_model(self):
         """
@@ -128,5 +131,6 @@ class FERTrainingProgram:
 
 if __name__ == "__main__":
     print("Running Facial Emotion Recognition Training Program")
-    FERTrainingProgram()
+    FERTrainingProgram(
+        epochs=30, learning_rate=0.001, model_path="fer_resnet18.pth", output_file="original_model")
     print("Training Complete!")
