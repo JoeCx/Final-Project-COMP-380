@@ -12,7 +12,9 @@ if __name__ == "__main__":
         model_path = f"fer_{learning_rate}_lr.pth"
         output_file = f"{learning_rate}_lr_output.txt"
         FERTrainingProgram(
-            epochs=15, learning_rate=learning_rate, model_path=model_path, output_file=output_file)
+            epochs=15, learning_rate=learning_rate,
+            corruption_amount=0, missing_amount=0,
+            model_path=model_path, output_file=output_file)
         print(f"{learning_rate} Learning Rate - Training Complete!")
 
     print("Complete - Facial Emotion Recognition Training Program with Various Amounts of Learning Rates")

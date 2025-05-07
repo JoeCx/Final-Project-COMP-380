@@ -12,7 +12,9 @@ if __name__ == "__main__":
         model_path = f"fer_{epoch_amount}_epoch.pth"
         output_file = f"{epoch_amount}_epoch_output.txt"
         FERTrainingProgram(
-            epochs=epoch_amount, learning_rate=0.001, model_path=model_path, output_file=output_file)
+            epochs=epoch_amount, learning_rate=0.001,
+            corruption_amount=0, missing_amount=0,
+            model_path=model_path, output_file=output_file)
         print(f"{epoch_amount} Epochs - Training Complete!")
 
     print("Complete - Facial Emotion Recognition Training Program with Various Amounts of Epochs")

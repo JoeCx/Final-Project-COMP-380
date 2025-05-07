@@ -4,9 +4,35 @@ import dill
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import functools
 from torchvision import models, datasets, transforms
 from torch.utils.data import DataLoader
 from sklearn.metrics import classification_report, f1_score
+
+def corrupt_pixels(corruption_amount, img_tensor):
+    channels, height, width = img_tensor.shape
+    number_of_pixels = height * width
+    number_of_corruptions = int(corruption_amount * number_of_pixels)
+
+    # pick which flat indices to corrupt
+    idx = torch.randperm(number_of_pixels)[:number_of_corruptions]
+    for channel in range(channels):
+        flat = img_tensor[channel].view(-1)
+        flat[idx] = torch.rand(number_of_corruptions)
+        img_tensor[channel] = flat.view(height, width)
+    return img_tensor
+
+def mask_pixels(missing_amount, img_tensor):
+    channels, height, width = img_tensor.shape
+    number_of_pixels = height * width
+    number_of_missing = int(missing_amount * number_of_pixels)
+
+    idx = torch.randperm(number_of_pixels)[:number_of_missing]
+    for channel in range(channels):
+        flat = img_tensor[channel].view(-1)
+        flat[idx] = 0.0
+        img_tensor[channel] = flat.view(height, width)
+    return img_tensor
 
 class FERTrainingProgram:
     """
@@ -14,7 +40,7 @@ class FERTrainingProgram:
     model for facial emotion recognition. The best model is saved according to
     the accuracy after each epoch.
     """
-    def __init__(self, epochs, learning_rate, model_path, output_file):
+    def __init__(self, epochs, learning_rate, corruption_amount, missing_amount, model_path, output_file):
         """
         Initializes the FERTrainingProgram class.
 
@@ -25,15 +51,22 @@ class FERTrainingProgram:
         self.batch_size = 64
         self.epochs = epochs
         self.learning_rate = learning_rate
+        self.corruption_amount = corruption_amount
+        self.missing_amount = missing_amount
         self.num_classes = 7
         self.model_path = model_path
         self.output_file = output_file
+
+        corrupt_function = functools.partial(corrupt_pixels, corruption_amount)
+        mask_function = functools.partial(mask_pixels, missing_amount)
 
         # Define transformation for images
         self.transformation = transforms.Compose([
             transforms.Grayscale(num_output_channels=3),  # ResNet expects 3 channels
             transforms.Resize((224, 224)), # 224 by 224 pixels
             transforms.ToTensor(),
+            corrupt_function,
+            mask_function,
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
 
