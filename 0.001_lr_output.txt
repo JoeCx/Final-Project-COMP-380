@@ -1,0 +1,36 @@
+Epoch 1: Accuracy = 0.5531, F1 Score = 0.4542, Average Loss = 1.2057
+Best model saved, F1 score increased from 0.0000 to 0.4542
+Epoch 2: Accuracy = 0.6162, F1 Score = 0.5758, Average Loss = 1.0086
+Best model saved, F1 score increased from 0.4542 to 0.5758
+Epoch 3: Accuracy = 0.6286, F1 Score = 0.5870, Average Loss = 0.8891
+Best model saved, F1 score increased from 0.5758 to 0.5870
+Epoch 4: Accuracy = 0.6272, F1 Score = 0.6007, Average Loss = 0.7686
+Best model saved, F1 score increased from 0.5870 to 0.6007
+Epoch 5: Accuracy = 0.6406, F1 Score = 0.6102, Average Loss = 0.6282
+Best model saved, F1 score increased from 0.6007 to 0.6102
+Epoch 6: Accuracy = 0.6311, F1 Score = 0.6246, Average Loss = 0.4672
+Best model saved, F1 score increased from 0.6102 to 0.6246
+Epoch 7: Accuracy = 0.6278, F1 Score = 0.6143, Average Loss = 0.3068
+Epoch 8: Accuracy = 0.6287, F1 Score = 0.5987, Average Loss = 0.2138
+Epoch 9: Accuracy = 0.6276, F1 Score = 0.5994, Average Loss = 0.1543
+Epoch 10: Accuracy = 0.6275, F1 Score = 0.6139, Average Loss = 0.1175
+Epoch 11: Accuracy = 0.6307, F1 Score = 0.6128, Average Loss = 0.1022
+Epoch 12: Accuracy = 0.6084, F1 Score = 0.5882, Average Loss = 0.0933
+Epoch 13: Accuracy = 0.6317, F1 Score = 0.6126, Average Loss = 0.0906
+Epoch 14: Accuracy = 0.6335, F1 Score = 0.6083, Average Loss = 0.0827
+Epoch 15: Accuracy = 0.6137, F1 Score = 0.5951, Average Loss = 0.0642
+
+Classification Report:
+              precision    recall  f1-score   support
+
+       angry       0.43      0.65      0.52       958
+     disgust       0.76      0.51      0.61       111
+        fear       0.46      0.47      0.46      1024
+       happy       0.79      0.89      0.83      1774
+     neutral       0.64      0.41      0.50      1233
+         sad       0.54      0.43      0.48      1247
+    surprise       0.75      0.77      0.76       831
+
+    accuracy                           0.61      7178
+   macro avg       0.62      0.59      0.60      7178
+weighted avg       0.62      0.61      0.61      7178

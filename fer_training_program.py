@@ -108,9 +108,9 @@ class FERTrainingProgram:
 
         # Training Loop
         best_f1_score = 0
-        total_loss = 0
         with open(self.output_file, "w") as output_file:
             for epoch in range(self.epochs):
+                total_loss = 0
                 self.model.train()
                 for images, labels in self.training_loader:
                     images, labels = images.to(self.device), labels.to(self.device)
