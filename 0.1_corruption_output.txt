@@ -1,0 +1,41 @@
+Epoch 1: Accuracy = 0.2549, F1 Score = 0.1097, Average Loss = 1.8724
+Best model saved, F1 score increased from 0.0000 to 0.1097
+Epoch 2: Accuracy = 0.2910, F1 Score = 0.1495, Average Loss = 1.7607
+Best model saved, F1 score increased from 0.1097 to 0.1495
+Epoch 3: Accuracy = 0.4551, F1 Score = 0.3718, Average Loss = 1.5316
+Best model saved, F1 score increased from 0.1495 to 0.3718
+Epoch 4: Accuracy = 0.4820, F1 Score = 0.3683, Average Loss = 1.3201
+Epoch 5: Accuracy = 0.5162, F1 Score = 0.4370, Average Loss = 1.2046
+Best model saved, F1 score increased from 0.3718 to 0.4370
+Epoch 6: Accuracy = 0.5189, F1 Score = 0.4778, Average Loss = 1.1223
+Best model saved, F1 score increased from 0.4370 to 0.4778
+Epoch 7: Accuracy = 0.5613, F1 Score = 0.5100, Average Loss = 1.0514
+Best model saved, F1 score increased from 0.4778 to 0.5100
+Epoch 8: Accuracy = 0.5841, F1 Score = 0.5199, Average Loss = 0.9820
+Best model saved, F1 score increased from 0.5100 to 0.5199
+Epoch 9: Accuracy = 0.5901, F1 Score = 0.5364, Average Loss = 0.9176
+Best model saved, F1 score increased from 0.5199 to 0.5364
+Epoch 10: Accuracy = 0.6064, F1 Score = 0.5667, Average Loss = 0.8323
+Best model saved, F1 score increased from 0.5364 to 0.5667
+Epoch 11: Accuracy = 0.6027, F1 Score = 0.5609, Average Loss = 0.7387
+Epoch 12: Accuracy = 0.6049, F1 Score = 0.5724, Average Loss = 0.6289
+Best model saved, F1 score increased from 0.5667 to 0.5724
+Epoch 13: Accuracy = 0.5736, F1 Score = 0.5494, Average Loss = 0.5118
+Epoch 14: Accuracy = 0.6067, F1 Score = 0.5776, Average Loss = 0.3988
+Best model saved, F1 score increased from 0.5724 to 0.5776
+Epoch 15: Accuracy = 0.5837, F1 Score = 0.5759, Average Loss = 0.3023
+
+Classification Report:
+              precision    recall  f1-score   support
+
+       angry       0.56      0.40      0.47       958
+     disgust       0.80      0.43      0.56       111
+        fear       0.40      0.50      0.45      1024
+       happy       0.89      0.71      0.79      1774
+     neutral       0.58      0.47      0.52      1233
+         sad       0.41      0.63      0.50      1247
+    surprise       0.75      0.75      0.75       831
+
+    accuracy                           0.58      7178
+   macro avg       0.63      0.56      0.58      7178
+weighted avg       0.62      0.58      0.59      7178
