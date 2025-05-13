@@ -9,7 +9,7 @@ if __name__ == "__main__":
     # Load facial emotion recognition model
     model_loader = FERModelLoader(weights_file_path="fer_resnet18.pth")
     fer_model = model_loader.get_model()
-    transformation = model_loader.get_transformation(transformation_file="fer_transformation.pth")
+    transformation = model_loader.get_transformation(transformation_file="transformation_fer_resnet18.pth")
 
     # Load face detector
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')

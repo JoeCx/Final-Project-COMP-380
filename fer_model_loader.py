@@ -16,7 +16,7 @@ class FERModelLoader:
             weights_file_paths (dict): A dictionary mapping model keys to their weight file paths.
         """
         self.weights_file_path = weights_file_path
-        self.emotion_classes = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+        self.emotion_classes = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
         self.num_classes = len(self.emotion_classes)
 
         self.model = None

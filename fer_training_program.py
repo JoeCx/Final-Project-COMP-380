@@ -156,7 +156,7 @@ class FERTrainingProgram:
         Returns: None
         """
         torch.save(self.model.state_dict(), self.model_path)
-        with open("fer_transformation.pth", "wb") as f:
+        with open(f"transformation_{self.model_path}", "wb") as f:
             dill.dump(self.transformation, f)
 
         print(f"FER Model weights saved to {self.model_path}.")
@@ -165,5 +165,6 @@ class FERTrainingProgram:
 if __name__ == "__main__":
     print("Running Facial Emotion Recognition Training Program")
     FERTrainingProgram(
-        epochs=30, learning_rate=0.001, model_path="fer_resnet18.pth", output_file="original_model.txt")
+        epochs=20, learning_rate=0.00005, corruption_amount=0,
+        missing_amount=0, model_path="fer_resnet18.pth", output_file="original_model.txt")
     print("Training Complete!")
