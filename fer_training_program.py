@@ -9,30 +9,38 @@ from torchvision import models, datasets, transforms
 from torch.utils.data import DataLoader
 from sklearn.metrics import classification_report, f1_score
 
-def corrupt_pixels(corruption_amount, img_tensor):
-    channels, height, width = img_tensor.shape
-    number_of_pixels = height * width
-    number_of_corruptions = int(corruption_amount * number_of_pixels)
+class PixelCorruptor:
+    def __init__(self, amount):
+        self.corruption_amount = amount
 
-    # pick which flat indices to corrupt
-    idx = torch.randperm(number_of_pixels)[:number_of_corruptions]
-    for channel in range(channels):
-        flat = img_tensor[channel].view(-1)
-        flat[idx] = torch.rand(number_of_corruptions)
-        img_tensor[channel] = flat.view(height, width)
-    return img_tensor
+    def __call__(self, img_tensor):
+        channels, height, width = img_tensor.shape
+        number_of_pixels = height * width
+        number_of_corruptions = int(self.corruption_amount * number_of_pixels)
 
-def mask_pixels(missing_amount, img_tensor):
-    channels, height, width = img_tensor.shape
-    number_of_pixels = height * width
-    number_of_missing = int(missing_amount * number_of_pixels)
+        # pick which flat indices to corrupt
+        idx = torch.randperm(number_of_pixels)[:number_of_corruptions]
+        for channel in range(channels):
+            flat = img_tensor[channel].view(-1)
+            flat[idx] = torch.rand(number_of_corruptions)
+            img_tensor[channel] = flat.view(height, width)
+        return img_tensor
 
-    idx = torch.randperm(number_of_pixels)[:number_of_missing]
-    for channel in range(channels):
-        flat = img_tensor[channel].view(-1)
-        flat[idx] = 0.0
-        img_tensor[channel] = flat.view(height, width)
-    return img_tensor
+class PixelMasker:
+    def __init__(self, amount):
+        self.missing_amount = amount
+
+    def __call__(self, img_tensor):
+        channels, height, width = img_tensor.shape
+        number_of_pixels = height * width
+        number_of_missing = int(self.missing_amount * number_of_pixels)
+
+        idx = torch.randperm(number_of_pixels)[:number_of_missing]
+        for channel in range(channels):
+            flat = img_tensor[channel].view(-1)
+            flat[idx] = 0.0
+            img_tensor[channel] = flat.view(height, width)
+        return img_tensor
 
 class FERTrainingProgram:
     """
@@ -57,16 +65,13 @@ class FERTrainingProgram:
         self.model_path = model_path
         self.output_file = output_file
 
-        corrupt_function = functools.partial(corrupt_pixels, corruption_amount)
-        mask_function = functools.partial(mask_pixels, missing_amount)
-
         # Define transformation for images
         self.transformation = transforms.Compose([
             transforms.Grayscale(num_output_channels=3),  # ResNet expects 3 channels
             transforms.Resize((224, 224)), # 224 by 224 pixels
             transforms.ToTensor(),
-            corrupt_function,
-            mask_function,
+            PixelCorruptor(amount=self.corruption_amount),
+            PixelMasker(amount=self.missing_amount),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
 
@@ -165,6 +170,6 @@ class FERTrainingProgram:
 if __name__ == "__main__":
     print("Running Facial Emotion Recognition Training Program")
     FERTrainingProgram(
-        epochs=20, learning_rate=0.00005, corruption_amount=0,
-        missing_amount=0, model_path="fer_resnet18.pth", output_file="original_model.txt")
+        epochs=20, learning_rate=0.00005, corruption_amount=0.1,
+        missing_amount=0.1, model_path="fer_resnet18.pth", output_file="original_model.txt")
     print("Training Complete!")
