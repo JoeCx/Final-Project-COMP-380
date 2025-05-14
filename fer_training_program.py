@@ -165,7 +165,7 @@ class FERTrainingProgram:
             dill.dump(self.transformation, f)
 
         print(f"FER Model weights saved to {self.model_path}.")
-        print("Transformation saved to fer_transformation.pth.")
+        print(f"Transformation saved to transformation_{self.model_path}.")
 
 if __name__ == "__main__":
     print("Running Facial Emotion Recognition Training Program")
