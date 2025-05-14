@@ -165,6 +165,6 @@ class FERTrainingProgram:
 if __name__ == "__main__":
     print("Running Facial Emotion Recognition Training Program")
     FERTrainingProgram(
-        epochs=20, learning_rate=0.00005, corruption_amount=0,
-        missing_amount=0, model_path="fer_resnet18.pth", output_file="original_model.txt")
+        epochs=20, learning_rate=0.00005, corruption_amount=0.1,
+        missing_amount=0.1, model_path="fer_resnet18.pth", output_file="original_model.txt")
     print("Training Complete!")
