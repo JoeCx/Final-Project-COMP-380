@@ -4,7 +4,6 @@ import dill
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import functools
 from torchvision import models, datasets, transforms
 from torch.utils.data import DataLoader
 from sklearn.metrics import classification_report, f1_score
